@@ -1,4 +1,5 @@
 CC=clang
+INC=inc
 
 all: clean build
 
@@ -7,4 +8,5 @@ clean:
 	rm -rf bin/*
 
 build:
-	$(CC) -o bin/klammern src/main.c 
+	$(CC) -I$(INC) -o bin/klammern-core.o -c src/klammern-core.c
+	$(CC) -I$(INC) -o bin/klammern bin/klammern-core.o src/main.c
