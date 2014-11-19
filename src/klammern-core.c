@@ -50,6 +50,24 @@ cons_new () {
 	return c;
 }
 
+cons_free (struct cons_t * c) {
+
+}
+
+struct nucleus_t
+str (const char * v) {
+	struct nucleus_t n;
+	size_t c = strlen (v);
+
+	n.type = DATA_STRING;
+	n.data.string = malloc (c * sizeof (char));
+	assert (n.data.string);
+
+	strncpy (n.data.string, v, c);
+
+	return n;
+}
+
 struct nucleus_t
 num (float v) {
 	struct nucleus_t n;
@@ -59,6 +77,7 @@ num (float v) {
 
 	return n;
 }
+
 struct nucleus_t
 boolean (bool v) {
 	struct nucleus_t n;

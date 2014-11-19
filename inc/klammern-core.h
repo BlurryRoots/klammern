@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <string.h>
 
 enum type_e {
 	DATA_BOOLEAN,
@@ -33,6 +34,9 @@ struct cons_t {
 
 struct cons_t *
 cons_new ();
+
+struct nucleus_t
+str (const char * v);
 
 struct nucleus_t
 num (float v);
