@@ -50,8 +50,19 @@ cons_new () {
 	return c;
 }
 
+void
 cons_free (struct cons_t * c) {
+	if (NULL == c) {
+		return;
+	}
 
+	struct cons_t * runner = c;
+	while (NULL != runner) {
+		if (DATA_STRING == c->head.type) {
+			free (c->head.data.string);
+		}
+		runner = runner->tail;
+	}
 }
 
 struct nucleus_t

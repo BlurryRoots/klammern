@@ -8,7 +8,7 @@ int
 main (int argc, char ** argv) {
 	struct cons_t *prog;
 	
-	prog = cons (num (42), cons (boolean (false), NULL));
+	prog = cons (str ("Hans die wurst!"), cons (num (42), cons (boolean (false), NULL)));
 
 	print_cons (prog);
 	printf ("\n");
