@@ -1,7 +1,7 @@
 #include <stdbool.h>
-#include <string.h>
 
 enum type_e {
+	DATA_DISPOSED,
 	DATA_BOOLEAN,
 	DATA_NUMBER,
 	DATA_STRING
@@ -10,7 +10,7 @@ enum type_e {
 union data_t {
 	bool boolean;
 	float number;
-	char *string;
+	char* string;
 };
 
 struct nucleus_t {
@@ -23,7 +23,7 @@ typedef
 
 struct cons_t {
 	struct nucleus_t head;
-	struct cons_t *tail;
+	struct cons_t* tail;
 };
 typedef
 	struct cons_t
@@ -41,8 +41,11 @@ typedef
 cons_t*
 cons_new (void);
 
+void
+cons_free (cons_t* c);
+
 nucleus_t
-str (const char * v);
+str (const char* v);
 
 nucleus_t
 num (float v);
@@ -51,10 +54,10 @@ nucleus_t
 boolean (bool v);
 
 cons_t*
-cons (nucleus_t n, cons_t *tail);
+cons (nucleus_t n, cons_t* tail);
 
 void
-print_cons (cons_t *c);
+print_cons (const cons_t* c);
 
 void
 display (nucleus_t nucleus);

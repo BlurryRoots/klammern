@@ -13,8 +13,7 @@ main (int argc, char **argv) {
 	print_cons (prog);
 	printf ("\n");
 
-	free (prog->tail);
-	free (prog);
+	cons_free (prog);
 
 	return 0;
 }

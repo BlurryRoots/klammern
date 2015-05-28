@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 #include <klammern-core.h>
 
@@ -23,8 +24,8 @@ display (nucleus_t nucleus) {
 }
 
 void
-print_cons (cons_t *c) {
-	cons_t *runner = c;
+print_cons (const cons_t* c) {
+	const cons_t* runner = c;
 
 	printf ("(");
 
@@ -41,9 +42,9 @@ print_cons (cons_t *c) {
 }
 
 cons_t*
-cons_new () {
+cons_new (void) {
 	cons_t *c = malloc (sizeof (cons_t));
-	assert (c);
+	assert (NULL != c);
 
 	c->tail = NULL;
 
@@ -58,10 +59,18 @@ cons_free (cons_t* c) {
 
 	cons_t *runner = c;
 	while (NULL != runner) {
-		if (DATA_STRING == c->head.type) {
-			free (c->head.data.string);
+		switch (c->head.type) {
+			case DATA_STRING:
+				free (c->head.data.string);
+				break;
 		}
+
+		runner->head.type = DATA_DISPOSED;
+
+		cons_t* old = runner;
 		runner = runner->tail;
+		old->tail = NULL;
+		free (old);
 	}
 }
 
@@ -72,7 +81,7 @@ str (const char * v) {
 
 	n.type = DATA_STRING;
 	n.data.string = malloc (c * sizeof (char));
-	assert (n.data.string);
+	assert (NULL != n.data.string);
 
 	strncpy (n.data.string, v, c);
 
@@ -104,7 +113,6 @@ cons (nucleus_t n, cons_t *tail) {
 	cons_t *c;
 
 	c = cons_new ();
-	assert (c);
 	c->head = n;
 
 	c->tail = tail;
