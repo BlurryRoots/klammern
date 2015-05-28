@@ -17,11 +17,17 @@ struct nucleus_t {
 	enum type_e type;
 	union data_t data;
 };
+typedef
+	struct nucleus_t
+	nucleus_t;
 
 struct cons_t {
 	struct nucleus_t head;
-	struct cons_t * tail;
+	struct cons_t *tail;
 };
+typedef
+	struct cons_t
+	cons_t;
 
 #define car(cons)\
 	cons->head
@@ -32,23 +38,23 @@ struct cons_t {
 #define set_data(n, f, v)\
 	n.data.f = v
 
-struct cons_t *
-cons_new ();
+cons_t*
+cons_new (void);
 
-struct nucleus_t
+nucleus_t
 str (const char * v);
 
-struct nucleus_t
+nucleus_t
 num (float v);
 
-struct nucleus_t
+nucleus_t
 boolean (bool v);
 
-struct cons_t *
-cons (struct nucleus_t n, struct cons_t * tail);
+cons_t*
+cons (nucleus_t n, cons_t *tail);
 
 void
-print_cons (struct cons_t * c);
+print_cons (cons_t *c);
 
 void
-display (struct nucleus_t nucleus);
+display (nucleus_t nucleus);

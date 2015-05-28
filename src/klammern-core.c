@@ -5,7 +5,7 @@
 #include <klammern-core.h>
 
 void
-display (struct nucleus_t nucleus) {
+display (nucleus_t nucleus) {
 	switch (nucleus.type) {
 		case DATA_BOOLEAN:
 			printf ("%s", nucleus.data.boolean ? "true" : "false");
@@ -23,8 +23,8 @@ display (struct nucleus_t nucleus) {
 }
 
 void
-print_cons (struct cons_t *c) {
-	struct cons_t *runner = c;
+print_cons (cons_t *c) {
+	cons_t *runner = c;
 
 	printf ("(");
 
@@ -40,9 +40,9 @@ print_cons (struct cons_t *c) {
 	printf (")");
 }
 
-struct cons_t*
+cons_t*
 cons_new () {
-	struct cons_t *c = malloc (sizeof (struct cons_t));
+	cons_t *c = malloc (sizeof (cons_t));
 	assert (c);
 
 	c->tail = NULL;
@@ -51,12 +51,12 @@ cons_new () {
 }
 
 void
-cons_free (struct cons_t * c) {
+cons_free (cons_t* c) {
 	if (NULL == c) {
 		return;
 	}
 
-	struct cons_t * runner = c;
+	cons_t *runner = c;
 	while (NULL != runner) {
 		if (DATA_STRING == c->head.type) {
 			free (c->head.data.string);
@@ -65,9 +65,9 @@ cons_free (struct cons_t * c) {
 	}
 }
 
-struct nucleus_t
+nucleus_t
 str (const char * v) {
-	struct nucleus_t n;
+	nucleus_t n;
 	size_t c = strlen (v);
 
 	n.type = DATA_STRING;
@@ -79,9 +79,9 @@ str (const char * v) {
 	return n;
 }
 
-struct nucleus_t
+nucleus_t
 num (float v) {
-	struct nucleus_t n;
+	nucleus_t n;
 
 	n.type = DATA_NUMBER;
 	n.data.number = v;
@@ -89,9 +89,9 @@ num (float v) {
 	return n;
 }
 
-struct nucleus_t
+nucleus_t
 boolean (bool v) {
-	struct nucleus_t n;
+	nucleus_t n;
 
 	n.type = DATA_BOOLEAN;
 	n.data.boolean = v;
@@ -99,9 +99,9 @@ boolean (bool v) {
 	return n;
 }
 
-struct cons_t*
-cons (struct nucleus_t n, struct cons_t *tail) {
-	struct cons_t *c;
+cons_t*
+cons (nucleus_t n, cons_t *tail) {
+	cons_t *c;
 
 	c = cons_new ();
 	assert (c);
