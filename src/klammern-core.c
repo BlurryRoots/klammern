@@ -15,7 +15,7 @@ display (nucleus_t nucleus) {
 			printf ("%f", nucleus.data.number);
 			break;
 		case DATA_STRING:
-			printf ("%s", nucleus.data.string);
+			printf ("'%s'", nucleus.data.string);
 			break;
 		default:
 			printf ("Not yet implemented!\n");
@@ -43,10 +43,22 @@ print_cons (const cons_t* c) {
 
 cons_t*
 cons_new (void) {
-	cons_t *c = malloc (sizeof (cons_t));
+	cons_t* c = malloc (sizeof (cons_t));
 	assert (NULL != c);
 
 	c->tail = NULL;
+
+	return c;
+}
+
+cons_t*
+cons (nucleus_t n, cons_t* tail) {
+	cons_t* c;
+
+	c = cons_new ();
+	c->head = n;
+
+	c->tail = tail;
 
 	return c;
 }
@@ -57,25 +69,29 @@ cons_free (cons_t* c) {
 		return;
 	}
 
-	cons_t *runner = c;
-	while (NULL != runner) {
-		switch (c->head.type) {
-			case DATA_STRING:
-				free (c->head.data.string);
-				break;
-		}
-
-		runner->head.type = DATA_DISPOSED;
-
-		cons_t* old = runner;
-		runner = runner->tail;
-		old->tail = NULL;
-		free (old);
+	// do type specific clean-up
+	switch (c->head.type) {
+		case DATA_STRING:
+			free (c->head.data.string);
+			break;
+		default:
+			// nothing to do here ;)
+			break;
 	}
+
+	// mark type as disposed
+	c->head.type = DATA_DISPOSED;
+
+	// clean up child nodes before deleting this node
+	cons_free (c->tail);
+
+	// invalidate child pointer and free node
+	c->tail = NULL;
+	free (c);
 }
 
 nucleus_t
-str (const char * v) {
+str (const char* v) {
 	nucleus_t n;
 	size_t c = strlen (v);
 
@@ -106,16 +122,4 @@ boolean (bool v) {
 	n.data.boolean = v;
 
 	return n;
-}
-
-cons_t*
-cons (nucleus_t n, cons_t *tail) {
-	cons_t *c;
-
-	c = cons_new ();
-	c->head = n;
-
-	c->tail = tail;
-
-	return c;
 }
