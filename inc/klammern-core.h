@@ -41,6 +41,9 @@ typedef
 cons_t*
 cons_new (void);
 
+cons_t*
+cons (nucleus_t n, cons_t* tail);
+
 void
 cons_free (cons_t* c);
 
@@ -52,9 +55,6 @@ num (float v);
 
 nucleus_t
 boolean (bool v);
-
-cons_t*
-cons (nucleus_t n, cons_t* tail);
 
 void
 print_cons (const cons_t* c);
