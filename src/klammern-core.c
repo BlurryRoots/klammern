@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS 1 // supresses strncpy_s error (thx ms!)
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -100,10 +102,11 @@ str (const char* v) {
 	size_t c = strlen (v);
 
 	n.type = DATA_STRING;
-	n.data.string = malloc (c * sizeof (char));
+	n.data.string = calloc (c + 1, sizeof (char)); // +1 for null terminator
 	assert (NULL != n.data.string);
 
 	strncpy (n.data.string, v, c);
+	n.data.string[c] = '\0';
 
 	return n;
 }
