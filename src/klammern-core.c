@@ -25,6 +25,8 @@ display (nucleus_t nucleus) {
 
 void
 print_cons (const cons_t* c) {
+	assert (NULL != c);
+
 	const cons_t* runner = c;
 
 	printf ("(");
@@ -92,6 +94,8 @@ cons_free (cons_t* c) {
 
 nucleus_t
 str (const char* v) {
+	assert (NULL != v);
+
 	nucleus_t n;
 	size_t c = strlen (v);
 
